@@ -4,15 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="{{base_url()}}">
+
     <title>Phonebook App</title>
 
-    <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 
     <style>
         body {
@@ -38,7 +36,7 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="<?php echo  site_url('/') ?>">
                 Phonebook App
             </a>
         </div>
@@ -47,21 +45,28 @@
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
-                @if (Auth::guest())
-                <li><a href="{{ url('/login') }}">Login</a></li>
-                <li><a href="{{ url('/register') }}">Register</a></li>
-                @else
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
+                <?php if (!$user): ?>
+                    <li><a href="<?php echo  site_url('/auth/login') ?>">Login</a></li>
+                <?php else: ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <?php echo  $user->first_name ?> <?php echo  $user->last_name ?> <span class="caret"></span>
+                        </a>
 
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                    </ul>
-                </li>
-                @endif
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?php echo  site_url('auth/logout') ?>"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                <?php endif ?>
             </ul>
         </div>
     </div>
 </nav>
+
+<?php $this->load->view($content) ?>
+
+<!-- JavaScripts -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>
